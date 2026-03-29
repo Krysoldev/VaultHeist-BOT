@@ -1,6 +1,12 @@
-# VaultHeist - Discord Economy Bot
+# ⚡ VaultHeist - Discord Economy Bot
 
-## Features
+> 💀 Advanced Economy Bot with Powerful CLI Installer & KRYsol Control Panel  
+> 🚀 Deploy in seconds using one command
+
+---
+
+## ✨ Features
+
 - 💰 Economy System (balance, daily, work, beg)
 - 🏦 Banking System (deposit, withdraw, interest)
 - 🔒 PIN Security System
@@ -16,29 +22,9 @@
 - 📝 Action Logging
 - 🛡️ Anti-Cheat & Cooldowns
 
-## Setup Instructions
+---
 
-1. Install Node.js (v16.9.0 or higher)
-2. Clone this repository
-3. Run `npm install`
-4. Create a Discord Application at https://discord.com/developers/applications
-5. Copy your Bot Token and Client ID to `.env`
-6. Invite bot with required scopes: `bot` and `applications.commands`
-7. Run `npm start`
+## 🚀 Quick Install (Recommended)
 
-## Commands
-
-Run `/help` to see all available commands categorized.
-
-Auto Code
-
-```
+```bash
 bash <(curl -s https://vaultheist.krysol.us.cc)
-
-```
-
-## Author
-Krysol Dev
-
-## License
-MIT
