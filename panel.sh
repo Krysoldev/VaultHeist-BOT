@@ -10,63 +10,40 @@ RED='\033[1;31m'
 NC='\033[0m'
 
 DIR="$HOME/VaultHeist-BOT"
-REPO="https://github.com/Krysoldev/VaultHeist-BOT.git"
 APP_NAME="vaultheist"
 
 # CENTER
 center() {
-    cols=$(tput cols)
-    text="$1"
-    printf "%*s\n" $(((${#text}+cols)/2)) "$text"
+cols=$(tput cols)
+text="$1"
+printf "%*s\n" $(((${#text}+cols)/2)) "$text"
 }
 
 # ==============================
-# 🎬 CLEAN BANNER
+# 🎬 NEW UI HEADER
 # ==============================
-banner() {
+header() {
 clear
 
-# TITLE
 echo ""
-center "⚡ K R Y S O L   D A S H B O A R D ⚡"
+center "${CYAN}⚡ KRYsol Dashboard ⚡${NC}"
+center "──────────────────────────────"
+
 echo ""
 
-# BORDER TOP
-center "╭──────────────────────────────────────╮"
-
-# LOGO
+# logo (clean small)
 echo -e "${BLUE}"
-center " ██╗  ██╗██████╗ ██╗   ██╗███████╗"
-center " ██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝"
-center " █████╔╝ ██████╔╝ ╚████╔╝ ███████╗"
-center " ██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║"
-center " ██║  ██╗██║  ██║   ██║   ███████║"
-center " ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝"
-echo -e "${NC}"
-
-# BORDER BOTTOM
-center "╰──────────────────────────────────────╯"
-
-echo ""
-
-# STATUS TEXT
-echo -e "${CYAN}"
-center "🔐 Initializing secure environment..."
-center "⚡ Loading modules..."
-center "🚀 System ready"
+center "██╗  ██╗██████╗ ██╗   ██╗"
+center "██║ ██╔╝██╔══██╗╚██╗ ██╔╝"
+center "█████╔╝ ██████╔╝ ╚████╔╝ "
+center "██╔═██╗ ██╔══██╗  ╚██╔╝  "
+center "██║  ██╗██║  ██║   ██║   "
+center "╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
 echo -e "${NC}"
 
 echo ""
-}
-
-# ==============================
-# 📥 REPO
-# ==============================
-ensure_repo() {
-if [ ! -d "$DIR" ]; then
-git clone $REPO $DIR > /dev/null 2>&1
-fi
-cd $DIR || exit
+center "🚀 System Ready"
+echo ""
 }
 
 # ==============================
@@ -78,28 +55,31 @@ CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
 RAM=$(free | awk '/Mem/ {printf("%.0f"), $3/$2 * 100}')
 UPTIME=$(uptime -p | cut -d " " -f2-)
 
-center "────────────────────────────────────────────"
-center "HOST: Krysol   ⏱ $UPTIME   ● ONLINE"
-center "────────────────────────────────────────────"
+center "──────────────────────────────"
+center "HOST: Krysol | $UPTIME | ONLINE"
+center "──────────────────────────────"
 
 echo ""
-center "System Health"
-center "CPU: $CPU%   RAM: $RAM%   NET: CONNECTED"
+center "CPU: $CPU% | RAM: $RAM% | NET: OK"
 
 echo ""
 
-# MENU (CENTERED CLEAN)
-center "[1] Install Bot        [5] Start Bot"
-center "[2] Configure Bot      [6] Stop Bot"
-center "[3] Fix Bot            [7] Status"
-echo ""
-center "[4] Repair System      [8] Delete Bot"
+# menu (clean list style)
+center "[1] Install Bot"
+center "[2] Configure Bot"
+center "[3] Fix Bot"
+center "[4] Repair System"
+center "[5] Start Bot"
+center "[6] Stop Bot"
+center "[7] Status"
+center "[8] Delete Bot"
 
 echo ""
-center "────────────────────────────────────────────"
+center "[0] Exit"
 
+echo ""
 echo -ne "${YELLOW}"
-center "➤ Command (1-8 / 0 exit): "
+center "➤ Enter option: "
 echo -ne "${NC}"
 }
 
@@ -107,7 +87,6 @@ echo -ne "${NC}"
 # ⚙️ FUNCTIONS
 # ==============================
 install_bot() {
-ensure_repo
 sudo apt update -y
 sudo apt install -y nodejs npm git curl
 npm install
@@ -115,20 +94,16 @@ sudo npm install -g pm2
 }
 
 configure_bot() {
-ensure_repo
 read -p "TOKEN: " TOKEN
 read -p "CLIENT ID: " CLIENT_ID
-read -p "GUILD ID: " GUILD_ID
 
 cat > .env <<EOF
 TOKEN=$TOKEN
 CLIENT_ID=$CLIENT_ID
-GUILD_ID=$GUILD_ID
 EOF
 }
 
 fix_bot() {
-ensure_repo
 rm -rf node_modules package-lock.json
 npm install
 git reset --hard
@@ -136,7 +111,6 @@ git pull
 }
 
 start_bot() {
-ensure_repo
 pm2 delete $APP_NAME 2>/dev/null
 pm2 start index.js --name $APP_NAME
 pm2 save
@@ -152,24 +126,22 @@ read
 }
 
 delete_bot() {
-echo -e "${RED}Type DELETE to confirm:${NC}"
+echo "Type DELETE:"
 read confirm
 if [ "$confirm" = "DELETE" ]; then
-rm -rf "$DIR"
+rm -rf "$HOME/VaultHeist-BOT"
 pm2 delete $APP_NAME 2>/dev/null
 fi
-read
 }
 
 # ==============================
 # 🔁 LOOP
 # ==============================
 while true; do
-banner
+header
 dashboard
 
 read choice
-choice=$(echo "$choice" | tr -d '[:space:]')
 
 case "$choice" in
 1) install_bot ;;
