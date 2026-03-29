@@ -1,79 +1,58 @@
 #!/bin/bash
 
-# ==============================
-# 🎨 COLORS
-# ==============================
-COLORS=(33 39 45 51 87)
-CYAN='\033[1;36m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-RED='\033[1;31m'
-MAGENTA='\033[1;35m'
-NC='\033[0m'
+# COLORS (FIXED)
+CYAN="\e[1;36m"
+GREEN="\e[1;32m"
+YELLOW="\e[1;33m"
+RED="\e[1;31m"
+BLUE="\e[38;5;33m"
+NC="\e[0m"
 
-DIR="$HOME/VaultHeist-BOT"
 APP_NAME="vaultheist"
+DIR="$HOME/VaultHeist-BOT"
 
-# ==============================
-# 🎯 CENTER FUNCTION
-# ==============================
+# CENTER FUNCTION
 center() {
-    cols=$(tput cols)
-    text="$1"
-    printf "%*s\n" $(((${#text}+cols)/2)) "$text"
+  cols=$(tput cols)
+  text="$1"
+  printf "%*s\n" $(((${#text}+cols)/2)) "$text"
 }
 
-# ==============================
-# 🎬 TYPEWRITER
-# ==============================
+# TYPEWRITER
 typewriter() {
-    text="$1"
-    for ((i=0; i<${#text}; i++)); do
-        echo -ne "${text:$i:1}"
-        sleep 0.005
-    done
-    echo ""
+  for ((i=0; i<${#1}; i++)); do
+    echo -ne "${1:$i:1}"
+    sleep 0.003
+  done
+  echo ""
 }
 
-# ==============================
-# 🎬 ANIMATED LOGO
-# ==============================
-logo() {
-color=${COLORS[$((RANDOM % ${#COLORS[@]}))]}
-code="\033[38;5;${color}m"
+# HEADER
+header() {
+clear
+echo ""
+center "${CYAN}⚡ KRYsol Dashboard ⚡${NC}"
+center "────────────────────────────"
+echo ""
 
-echo -e "$code"
+# CLEAN LOGO
+echo -e "${BLUE}"
 center "██╗  ██╗██████╗ ██╗   ██╗"
 center "██║ ██╔╝██╔══██╗╚██╗ ██╔╝"
 center "█████╔╝ ██████╔╝ ╚████╔╝ "
 center "██╔═██╗ ██╔══██╗  ╚██╔╝  "
 center "██║  ██╗██║  ██║   ██║   "
 center "╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
-echo -e "$NC"
-}
-
-# ==============================
-# 🎬 HEADER
-# ==============================
-header() {
-clear
+echo -e "${NC}"
 
 echo ""
-center "${CYAN}⚡ KRYsol Dashboard ⚡${NC}"
-center "────────────────────────────"
-
-logo
-
-echo ""
-typewriter "🔐 Initializing system..."
+typewriter "🔐 Initializing..."
 typewriter "⚡ Loading modules..."
 typewriter "🚀 Ready"
 echo ""
 }
 
-# ==============================
-# 📊 DASHBOARD
-# ==============================
+# DASHBOARD
 dashboard() {
 
 CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
@@ -89,7 +68,7 @@ echo ""
 center "CPU: $CPU% | RAM: $RAM% | NET: OK"
 echo ""
 
-# MENU GRID
+# MENU (PROPER ALIGN)
 center "[1] Install     [5] Start"
 center "[2] Configure   [6] Stop"
 center "[3] Fix         [7] Status"
@@ -99,14 +78,13 @@ echo ""
 center "[0] Exit"
 
 echo ""
-echo -ne "${YELLOW}"
-center "➤ Select Option: "
-echo -ne "${NC}"
+printf "${YELLOW}"
+center "➤ Select Option:"
+printf "${NC}"
 }
 
-# ==============================
-# ⚙️ FUNCTIONS
-# ==============================
+# ================= FUNCTIONS =================
+
 install_bot() {
 sudo apt update -y
 sudo apt install -y nodejs npm git curl
@@ -155,9 +133,7 @@ pm2 delete $APP_NAME 2>/dev/null
 fi
 }
 
-# ==============================
-# 🔁 LOOP
-# ==============================
+# LOOP
 while true; do
 header
 dashboard
