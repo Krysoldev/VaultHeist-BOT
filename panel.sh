@@ -1,131 +1,118 @@
 #!/bin/bash
 
-# ==============================
-# 🎨 COLORS
-# ==============================
-RED='\033[0;31m'
-GREEN='\033[0;32m'
+# COLORS
+RED='\033[1;31m'
+GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-MAGENTA='\033[0;35m'
+CYAN='\033[1;36m'
+MAGENTA='\033[1;35m'
 NC='\033[0m'
 
 DIR="$HOME/VaultHeist-BOT"
 REPO="https://github.com/Krysoldev/VaultHeist-BOT.git"
 APP_NAME="vaultheist"
 
-# ==============================
-# 🎬 TYPEWRITER
-# ==============================
+# TYPEWRITER
 typewriter() {
     text="$1"
     for ((i=0; i<${#text}; i++)); do
         echo -ne "${text:$i:1}"
-        sleep 0.01
+        sleep 0.008
     done
     echo ""
 }
 
-# ==============================
-# ⚡ LOADING BAR
-# ==============================
+# LOADING BAR
 loading_bar() {
-    echo -ne "${YELLOW}Loading: [${NC}"
-    for i in {1..20}; do
+    echo -ne "${YELLOW}Loading [${NC}"
+    for i in {1..25}; do
         echo -ne "${GREEN}█${NC}"
-        sleep 0.02
+        sleep 0.01
     done
-    echo -e "${YELLOW}] Done!${NC}"
+    echo -e "${YELLOW}]${NC}"
 }
 
-# ==============================
-# 🔄 SPINNER
-# ==============================
+# SPINNER
 spinner() {
     local pid=$!
-    local spin='-\|/'
+    local spin='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
     local i=0
     while kill -0 $pid 2>/dev/null; do
-        i=$(( (i+1) %4 ))
-        printf "\r${CYAN}[%c] Working...${NC}" "${spin:$i:1}"
-        sleep .1
+        printf "\r${CYAN}[%s] Processing...${NC}" "${spin:$i:1}"
+        i=$(( (i+1) %10 ))
+        sleep 0.08
     done
     printf "\r${GREEN}✔ Done!${NC}\n"
 }
 
-# ==============================
-# 🎬 BANNER
-# ==============================
+# BANNER
 banner() {
 clear
-echo -e "${MAGENTA}"
 
+# glitch effect
 for i in {1..2}; do
 clear
+echo -e "${RED}KRY${CYAN}SOL${NC}"
+sleep 0.05
+clear
+echo -e "${CYAN}KRY${RED}SOL${NC}"
+sleep 0.05
+done
+
+# main logo
+echo -e "${MAGENTA}"
 cat << "EOF"
-██╗  ██╗██████╗ ██╗   ██╗███████╗ ██████╗ ██╗
-██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔═══██╗██║
-█████╔╝ ██████╔╝ ╚████╔╝ ███████╗██║   ██║██║
-██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║██║   ██║██║
+██╗  ██╗██████╗ ██╗   ██╗███████╗ ██████╗ ██╗     
+██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔═══██╗██║     
+█████╔╝ ██████╔╝ ╚████╔╝ ███████╗██║   ██║██║     
+██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║██║   ██║██║     
 ██║  ██╗██║  ██║   ██║   ███████║╚██████╔╝███████╗
 ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝
 EOF
-sleep 0.1
-done
 
 echo -e "${CYAN}"
-typewriter "⚡ Initializing Krysol Control Panel..."
-sleep 0.2
-typewriter "🔐 Loading modules..."
-sleep 0.2
-typewriter "🚀 System Ready!"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "        ⚡ KRYsol CONTROL SYSTEM ⚡"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "${NC}"
+
+typewriter "🔐 Secure kernel loaded..."
+typewriter "⚡ Injecting modules..."
+typewriter "🚀 System ready"
+echo ""
 }
 
-# ==============================
-# 📥 REPO
-# ==============================
+# REPO
 ensure_repo() {
 if [ ! -d "$DIR" ]; then
     (git clone $REPO $DIR > /dev/null 2>&1) & spinner
 fi
 cd $DIR || exit
-chmod +x *.sh 2>/dev/null
 }
 
-# ==============================
-# 🚀 INSTALL
-# ==============================
+# INSTALL
 install_bot() {
 banner
 ensure_repo
 
-echo -e "${YELLOW}Installing bot...${NC}"
-
 (sudo apt update -y > /dev/null 2>&1) & spinner
 (sudo apt install -y git curl nodejs npm > /dev/null 2>&1) & spinner
-
-if ! command -v node &> /dev/null; then
-(curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - > /dev/null 2>&1 && sudo apt install -y nodejs > /dev/null 2>&1) & spinner
-fi
 
 (npm install > /dev/null 2>&1) & spinner
 (sudo npm install -g pm2 > /dev/null 2>&1) & spinner
 
 curl -sSL https://raw.githubusercontent.com/Krysoldev/VaultHeist-BOT/main/fix_error.sh | bash
 
-echo -e "${GREEN}✅ Install Done${NC}"
-read -p "Press Enter..."
+echo -e "${GREEN}✔ INSTALL COMPLETE${NC}"
+read
 }
 
-# ==============================
-# ⚙️ CONFIG
-# ==============================
+# CONFIG
 configure_bot() {
 banner
 ensure_repo
 
-read -p "BOT TOKEN: " TOKEN
+read -p "TOKEN: " TOKEN
 read -p "CLIENT ID: " CLIENT_ID
 read -p "GUILD ID: " GUILD_ID
 
@@ -135,30 +122,26 @@ CLIENT_ID=$CLIENT_ID
 GUILD_ID=$GUILD_ID
 EOF
 
-echo -e "${GREEN}Saved .env${NC}"
-read -p "Press Enter..."
+echo -e "${GREEN}✔ CONFIG SAVED${NC}"
+read
 }
 
-# ==============================
-# 🔧 FIX
-# ==============================
+# FIX
 fix_bot() {
 banner
 ensure_repo
 
-(rm -rf node_modules package-lock.json > /dev/null 2>&1) & spinner
-(npm install > /dev/null 2>&1) & spinner
-(git reset --hard > /dev/null 2>&1 && git pull > /dev/null 2>&1) & spinner
+(rm -rf node_modules package-lock.json) & spinner
+(npm install) & spinner
+(git reset --hard && git pull) & spinner
 
 curl -sSL https://raw.githubusercontent.com/Krysoldev/VaultHeist-BOT/main/fix_error.sh | bash
 
-echo -e "${GREEN}✅ Fix Done${NC}"
-read -p "Press Enter..."
+echo -e "${GREEN}✔ FIX COMPLETE${NC}"
+read
 }
 
-# ==============================
-# ▶️ START
-# ==============================
+# START
 start_bot() {
 banner
 ensure_repo
@@ -167,77 +150,69 @@ pm2 delete $APP_NAME > /dev/null 2>&1
 pm2 start index.js --name $APP_NAME
 pm2 save
 
-echo -e "${GREEN}🚀 Bot Started${NC}"
-read -p "Press Enter..."
+echo -e "${GREEN}✔ BOT STARTED${NC}"
+read
 }
 
-# ==============================
-# ⛔ STOP
-# ==============================
+# STOP
 stop_bot() {
 banner
-pm2 stop $APP_NAME > /dev/null 2>&1
-echo -e "${RED}🛑 Bot Stopped${NC}"
-read -p "Press Enter..."
+pm2 stop $APP_NAME
+echo -e "${RED}✔ BOT STOPPED${NC}"
+read
 }
 
-# ==============================
-# 📊 STATUS
-# ==============================
+# STATUS
 status_bot() {
 banner
 pm2 list
-read -p "Press Enter..."
+read
 }
 
-# ==============================
-# 🗑️ DELETE
-# ==============================
+# DELETE
 delete_bot() {
 banner
 
-echo -e "${RED}⚠ This will DELETE the bot permanently!${NC}"
-read -p "Type DELETE to confirm: " confirm
+echo -e "${RED}TYPE DELETE TO CONFIRM:${NC}"
+read confirm
 
 if [ "$confirm" = "DELETE" ]; then
     rm -rf "$DIR"
     pm2 delete $APP_NAME > /dev/null 2>&1
-    echo -e "${GREEN}🗑️ Bot Deleted${NC}"
+    echo -e "${GREEN}✔ BOT DELETED${NC}"
 else
-    echo -e "${CYAN}Cancelled${NC}"
+    echo "Cancelled"
 fi
 
-read -p "Press Enter..."
+read
 }
 
-# ==============================
-# 🎮 MENU
-# ==============================
-menu_ui() {
-echo -e "${CYAN}╔════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║     ${MAGENTA}⚡ CONTROL PANEL ⚡${CYAN}       ║${NC}"
-echo -e "${CYAN}╠════════════════════════════════════╣${NC}"
-echo -e "${CYAN}║ ${GREEN}[1]${NC} Install Bot             ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${GREEN}[2]${NC} Configure Bot           ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${GREEN}[3]${NC} Fix Bot                 ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${GREEN}[4]${NC} Start Bot               ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${GREEN}[5]${NC} Stop Bot                ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${GREEN}[6]${NC} Status                  ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${RED}[7]${NC} Delete Bot             ${CYAN}║${NC}"
-echo -e "${CYAN}║ ${RED}[0]${NC} Exit                   ${CYAN}║${NC}"
-echo -e "${CYAN}╚════════════════════════════════════╝${NC}"
+# MENU
+menu() {
+echo -e "${CYAN}╭────────────────────────────────────╮${NC}"
+echo -e "${CYAN}│ ${MAGENTA}⚡ KRYsol Control Panel ⚡${CYAN}        │${NC}"
+echo -e "${CYAN}├────────────────────────────────────┤${NC}"
+
+echo -e "${CYAN}│ ${GREEN}[1] Install Bot              ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[2] Configure Bot            ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[3] Fix & Repair             ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[4] Start Bot                ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[5] Stop Bot                 ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[6] Status                   ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${RED}[7] Delete Bot               ${CYAN}│${NC}"
+
+echo -e "${CYAN}├────────────────────────────────────┤${NC}"
+echo -e "${CYAN}│ ${YELLOW}[0] Exit                   ${CYAN}│${NC}"
+echo -e "${CYAN}╰────────────────────────────────────╯${NC}"
 }
 
-# ==============================
-# 🔁 LOOP
-# ==============================
+# LOOP
 while true; do
 banner
-menu_ui
+menu
 
-echo -ne "${YELLOW}➤ Select option: ${NC}"
-read -r choice
-choice=$(echo "$choice" | tr -d '[:space:]')
+echo -ne "${MAGENTA}┌─[KRYsol@panel]─[~]\n└──➤ ${NC}"
+read choice
 
 loading_bar
 
@@ -249,8 +224,8 @@ case "$choice" in
 5) stop_bot ;;
 6) status_bot ;;
 7) delete_bot ;;
-0) echo "Bye 😎"; exit ;;
-*) echo -e "${RED}Invalid!${NC}"; sleep 1 ;;
+0) exit ;;
+*) echo "Invalid"; sleep 1 ;;
 esac
 
 done
