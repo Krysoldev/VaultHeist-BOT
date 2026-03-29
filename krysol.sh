@@ -190,7 +190,7 @@ read
 # MENU
 menu() {
 echo -e "${CYAN}╭────────────────────────────────────╮${NC}"
-echo -e "${CYAN}│ ${MAGENTA}⚡ KRYsol Control Panel ⚡${CYAN}        │${NC}"
+echo -e "${CYAN}│ ${MAGENTA}⚡ KRYSOL Control Panel ⚡${CYAN}        │${NC}"
 echo -e "${CYAN}├────────────────────────────────────┤${NC}"
 
 echo -e "${CYAN}│ ${GREEN}[1] Install Bot              ${CYAN}│${NC}"
