@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# ==============================
-# 🎨 COLORS
-# ==============================
-COLORS=(27 33 39 45 51 87 123 159)  # blue gradient
+# COLORS
+COLORS=(19 20 21 25 27 33 39 45 51)
 CYAN='\033[1;36m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
@@ -15,9 +13,7 @@ DIR="$HOME/VaultHeist-BOT"
 REPO="https://github.com/Krysoldev/VaultHeist-BOT.git"
 APP_NAME="vaultheist"
 
-# ==============================
-# 🎯 CENTER FUNCTION
-# ==============================
+# CENTER TEXT
 center() {
     cols=$(tput cols)
     text="$1"
@@ -25,23 +21,24 @@ center() {
 }
 
 # ==============================
-# 🔥 ANIMATED KRYSOL
+# 🔥 ANIMATED KRYSOL (INSIDE BOX)
 # ==============================
-animate_logo() {
-logo=(
-"██╗  ██╗██████╗ ██╗   ██╗███████╗ ██████╗ ██╗"
-"██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔═══██╗██║"
-"█████╔╝ ██████╔╝ ╚████╔╝ ███████╗██║   ██║██║"
-"██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║██║   ██║██║"
-"██║  ██╗██║  ██║   ██║   ███████║╚██████╔╝███████╗"
-"╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝"
-)
+draw_logo() {
 
 color=${COLORS[$((RANDOM % ${#COLORS[@]}))]}
 code="\033[38;5;${color}m"
 
+logo=(
+"██╗  ██╗██████╗ ██╗   ██╗███████╗"
+"██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝"
+"█████╔╝ ██████╔╝ ╚████╔╝ ███████╗"
+"██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║"
+"██║  ██╗██║  ██║   ██║   ███████║"
+"╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝"
+)
+
 for line in "${logo[@]}"; do
-    center "$(echo -e "${code}${line}${NC}")"
+    center "$(echo -e "${code}$line${NC}")"
 done
 }
 
@@ -51,22 +48,22 @@ done
 banner() {
 clear
 
-cols=$(tput cols)
-width=64
-
-# top border
-center "╔════════════════════════════════════════════════════════════╗"
-
-# animated logo
-animate_logo
-
-# bottom border
-center "╚════════════════════════════════════════════════════════════╝"
-
-echo ""
+# title
 center "⚡ K R Y S O L   D A S H B O A R D ⚡"
 echo ""
 
+# border top
+center "╔══════════════════════════════════════════════╗"
+
+# animated logo
+draw_logo
+
+# border bottom
+center "╚══════════════════════════════════════════════╝"
+
+echo ""
+
+# animation text
 echo -e "${CYAN}"
 center "🔐 Initializing secure environment..."
 sleep 0.05
@@ -96,9 +93,9 @@ CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
 RAM=$(free | awk '/Mem/ {printf("%.0f"), $3/$2 * 100}')
 UPTIME=$(uptime -p | cut -d " " -f2-)
 
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 center "HOST: Krysol   ⏱ $UPTIME   ● ONLINE"
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
 echo ""
 center "System Health"
@@ -106,7 +103,6 @@ center "CPU: $CPU%   RAM: $RAM%   NET: CONNECTED"
 
 echo ""
 
-# 💎 IMPROVED MENU (COLUMN STYLE)
 printf "\n${CYAN}%-40s %-40s${NC}\n" "📦 DEPLOYMENT" "⚙ CONTROLS"
 printf "%-40s %-40s\n" "[1] Install Bot" "[5] Start Bot"
 printf "%-40s %-40s\n" "[2] Configure Bot" "[6] Stop Bot"
@@ -117,7 +113,7 @@ printf "${MAGENTA}%-40s %-40s${NC}\n" "🛠 MAINTENANCE" ""
 printf "%-40s %-40s\n" "[4] Repair System" "[8] Delete Bot"
 
 echo ""
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
 echo -ne "${YELLOW}➤ Command (1-8 / 0 exit): ${NC}"
 }
@@ -131,7 +127,6 @@ sudo apt update -y
 sudo apt install -y nodejs npm git curl
 npm install
 sudo npm install -g pm2
-curl -sSL https://raw.githubusercontent.com/Krysoldev/VaultHeist-BOT/main/fix_error.sh | bash
 }
 
 configure_bot() {
@@ -153,7 +148,6 @@ rm -rf node_modules package-lock.json
 npm install
 git reset --hard
 git pull
-curl -sSL https://raw.githubusercontent.com/Krysoldev/VaultHeist-BOT/main/fix_error.sh | bash
 }
 
 start_bot() {
@@ -178,7 +172,6 @@ read confirm
 if [ "$confirm" = "DELETE" ]; then
 rm -rf "$DIR"
 pm2 delete $APP_NAME 2>/dev/null
-echo "Deleted"
 fi
 read
 }
