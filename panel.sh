@@ -112,7 +112,6 @@ fi
 (npm install > /dev/null 2>&1) & spinner
 (sudo npm install -g pm2 > /dev/null 2>&1) & spinner
 
-echo -e "${GREEN}Running deep fix...${NC}"
 curl -sSL https://raw.githubusercontent.com/Krysoldev/VaultHeist-BOT/main/fix_error.sh | bash
 
 echo -e "${GREEN}✅ Install Done${NC}"
@@ -168,7 +167,7 @@ pm2 delete $APP_NAME > /dev/null 2>&1
 pm2 start index.js --name $APP_NAME
 pm2 save
 
-echo -e "${GREEN}Bot Started${NC}"
+echo -e "${GREEN}🚀 Bot Started${NC}"
 read -p "Press Enter..."
 }
 
@@ -178,7 +177,7 @@ read -p "Press Enter..."
 stop_bot() {
 banner
 pm2 stop $APP_NAME > /dev/null 2>&1
-echo -e "${RED}Bot Stopped${NC}"
+echo -e "${RED}🛑 Bot Stopped${NC}"
 read -p "Press Enter..."
 }
 
@@ -192,7 +191,27 @@ read -p "Press Enter..."
 }
 
 # ==============================
-# 🎮 MENU UI
+# 🗑️ DELETE
+# ==============================
+delete_bot() {
+banner
+
+echo -e "${RED}⚠ This will DELETE the bot permanently!${NC}"
+read -p "Type DELETE to confirm: " confirm
+
+if [ "$confirm" = "DELETE" ]; then
+    rm -rf "$DIR"
+    pm2 delete $APP_NAME > /dev/null 2>&1
+    echo -e "${GREEN}🗑️ Bot Deleted${NC}"
+else
+    echo -e "${CYAN}Cancelled${NC}"
+fi
+
+read -p "Press Enter..."
+}
+
+# ==============================
+# 🎮 MENU
 # ==============================
 menu_ui() {
 echo -e "${CYAN}╔════════════════════════════════════╗${NC}"
@@ -204,6 +223,7 @@ echo -e "${CYAN}║ ${GREEN}[3]${NC} Fix Bot                 ${CYAN}║${NC}"
 echo -e "${CYAN}║ ${GREEN}[4]${NC} Start Bot               ${CYAN}║${NC}"
 echo -e "${CYAN}║ ${GREEN}[5]${NC} Stop Bot                ${CYAN}║${NC}"
 echo -e "${CYAN}║ ${GREEN}[6]${NC} Status                  ${CYAN}║${NC}"
+echo -e "${CYAN}║ ${RED}[7]${NC} Delete Bot             ${CYAN}║${NC}"
 echo -e "${CYAN}║ ${RED}[0]${NC} Exit                   ${CYAN}║${NC}"
 echo -e "${CYAN}╚════════════════════════════════════╝${NC}"
 }
@@ -216,7 +236,6 @@ banner
 menu_ui
 
 echo -ne "${YELLOW}➤ Select option: ${NC}"
-
 read -r choice
 choice=$(echo "$choice" | tr -d '[:space:]')
 
@@ -229,6 +248,7 @@ case "$choice" in
 4) start_bot ;;
 5) stop_bot ;;
 6) status_bot ;;
+7) delete_bot ;;
 0) echo "Bye 😎"; exit ;;
 *) echo -e "${RED}Invalid!${NC}"; sleep 1 ;;
 esac
