@@ -199,7 +199,7 @@ echo -e "${CYAN}│ ${GREEN}[3] Fix & Repair             ${CYAN}│${NC}"
 echo -e "${CYAN}│ ${GREEN}[4] Start Bot                ${CYAN}│${NC}"
 echo -e "${CYAN}│ ${GREEN}[5] Stop Bot                 ${CYAN}│${NC}"
 echo -e "${CYAN}│ ${GREEN}[6] Status                   ${CYAN}│${NC}"
-echo -e "${CYAN}│ ${RED}[7] Delete Bot               ${CYAN}│${NC}"
+echo -e "${CYAN}│ ${GREEN}[7] Delete Bot               ${CYAN}│${NC}"
 
 echo -e "${CYAN}├────────────────────────────────────┤${NC}"
 echo -e "${CYAN}│ ${YELLOW}[0] Exit                   ${CYAN}│${NC}"
