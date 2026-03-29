@@ -1,48 +1,73 @@
 #!/bin/bash
 
-# COLORS
-BLUE='\033[38;5;33m'
+# ==============================
+# 🎨 COLORS
+# ==============================
+COLORS=(33 39 45 51 87)
 CYAN='\033[1;36m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
-MAGENTA='\033[1;35m'
 RED='\033[1;31m'
+MAGENTA='\033[1;35m'
 NC='\033[0m'
 
 DIR="$HOME/VaultHeist-BOT"
 APP_NAME="vaultheist"
 
-# CENTER
+# ==============================
+# 🎯 CENTER FUNCTION
+# ==============================
 center() {
-cols=$(tput cols)
-text="$1"
-printf "%*s\n" $(((${#text}+cols)/2)) "$text"
+    cols=$(tput cols)
+    text="$1"
+    printf "%*s\n" $(((${#text}+cols)/2)) "$text"
 }
 
 # ==============================
-# 🎬 NEW UI HEADER
+# 🎬 TYPEWRITER
 # ==============================
-header() {
-clear
+typewriter() {
+    text="$1"
+    for ((i=0; i<${#text}; i++)); do
+        echo -ne "${text:$i:1}"
+        sleep 0.005
+    done
+    echo ""
+}
 
-echo ""
-center "${CYAN}⚡ KRYsol Dashboard ⚡${NC}"
-center "──────────────────────────────"
+# ==============================
+# 🎬 ANIMATED LOGO
+# ==============================
+logo() {
+color=${COLORS[$((RANDOM % ${#COLORS[@]}))]}
+code="\033[38;5;${color}m"
 
-echo ""
-
-# logo (clean small)
-echo -e "${BLUE}"
+echo -e "$code"
 center "██╗  ██╗██████╗ ██╗   ██╗"
 center "██║ ██╔╝██╔══██╗╚██╗ ██╔╝"
 center "█████╔╝ ██████╔╝ ╚████╔╝ "
 center "██╔═██╗ ██╔══██╗  ╚██╔╝  "
 center "██║  ██╗██║  ██║   ██║   "
 center "╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
-echo -e "${NC}"
+echo -e "$NC"
+}
+
+# ==============================
+# 🎬 HEADER
+# ==============================
+header() {
+clear
 
 echo ""
-center "🚀 System Ready"
+center "${CYAN}⚡ KRYsol Dashboard ⚡${NC}"
+center "────────────────────────────"
+
+logo
+
+echo ""
+typewriter "🔐 Initializing system..."
+typewriter "⚡ Loading modules..."
+typewriter "🚀 Ready"
 echo ""
 }
 
@@ -55,31 +80,27 @@ CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
 RAM=$(free | awk '/Mem/ {printf("%.0f"), $3/$2 * 100}')
 UPTIME=$(uptime -p | cut -d " " -f2-)
 
-center "──────────────────────────────"
-center "HOST: Krysol | $UPTIME | ONLINE"
-center "──────────────────────────────"
+center "────────────────────────────"
+center "HOST: Krysol | $UPTIME"
+center "STATUS: ONLINE"
+center "────────────────────────────"
 
 echo ""
 center "CPU: $CPU% | RAM: $RAM% | NET: OK"
-
 echo ""
 
-# menu (clean list style)
-center "[1] Install Bot"
-center "[2] Configure Bot"
-center "[3] Fix Bot"
-center "[4] Repair System"
-center "[5] Start Bot"
-center "[6] Stop Bot"
-center "[7] Status"
-center "[8] Delete Bot"
+# MENU GRID
+center "[1] Install     [5] Start"
+center "[2] Configure   [6] Stop"
+center "[3] Fix         [7] Status"
+center "[4] Repair      [8] Delete"
 
 echo ""
 center "[0] Exit"
 
 echo ""
 echo -ne "${YELLOW}"
-center "➤ Enter option: "
+center "➤ Select Option: "
 echo -ne "${NC}"
 }
 
@@ -129,7 +150,7 @@ delete_bot() {
 echo "Type DELETE:"
 read confirm
 if [ "$confirm" = "DELETE" ]; then
-rm -rf "$HOME/VaultHeist-BOT"
+rm -rf "$DIR"
 pm2 delete $APP_NAME 2>/dev/null
 fi
 }
