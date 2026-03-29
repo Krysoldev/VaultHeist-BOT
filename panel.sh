@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # COLORS
-COLORS=(19 20 21 25 27 33 39 45 51)
+BLUE='\033[38;5;33m'
 CYAN='\033[1;36m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
-RED='\033[1;31m'
 MAGENTA='\033[1;35m'
+RED='\033[1;31m'
 NC='\033[0m'
 
 DIR="$HOME/VaultHeist-BOT"
 REPO="https://github.com/Krysoldev/VaultHeist-BOT.git"
 APP_NAME="vaultheist"
 
-# CENTER TEXT
+# CENTER
 center() {
     cols=$(tput cols)
     text="$1"
@@ -21,56 +21,41 @@ center() {
 }
 
 # ==============================
-# 🔥 ANIMATED KRYSOL (INSIDE BOX)
-# ==============================
-draw_logo() {
-
-color=${COLORS[$((RANDOM % ${#COLORS[@]}))]}
-code="\033[38;5;${color}m"
-
-logo=(
-"██╗  ██╗██████╗ ██╗   ██╗███████╗"
-"██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝"
-"█████╔╝ ██████╔╝ ╚████╔╝ ███████╗"
-"██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║"
-"██║  ██╗██║  ██║   ██║   ███████║"
-"╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝"
-)
-
-for line in "${logo[@]}"; do
-    center "$(echo -e "${code}$line${NC}")"
-done
-}
-
-# ==============================
-# 🎬 BANNER
+# 🎬 CLEAN BANNER
 # ==============================
 banner() {
 clear
 
-# title
+# TITLE
+echo ""
 center "⚡ K R Y S O L   D A S H B O A R D ⚡"
 echo ""
 
-# border top
-center "╔══════════════════════════════════════════════╗"
+# BORDER TOP
+center "╭──────────────────────────────────────╮"
 
-# animated logo
-draw_logo
+# LOGO
+echo -e "${BLUE}"
+center " ██╗  ██╗██████╗ ██╗   ██╗███████╗"
+center " ██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝"
+center " █████╔╝ ██████╔╝ ╚████╔╝ ███████╗"
+center " ██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║"
+center " ██║  ██╗██║  ██║   ██║   ███████║"
+center " ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝"
+echo -e "${NC}"
 
-# border bottom
-center "╚══════════════════════════════════════════════╝"
+# BORDER BOTTOM
+center "╰──────────────────────────────────────╯"
 
 echo ""
 
-# animation text
+# STATUS TEXT
 echo -e "${CYAN}"
 center "🔐 Initializing secure environment..."
-sleep 0.05
 center "⚡ Loading modules..."
-sleep 0.05
 center "🚀 System ready"
 echo -e "${NC}"
+
 echo ""
 }
 
@@ -93,9 +78,9 @@ CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
 RAM=$(free | awk '/Mem/ {printf("%.0f"), $3/$2 * 100}')
 UPTIME=$(uptime -p | cut -d " " -f2-)
 
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+center "────────────────────────────────────────────"
 center "HOST: Krysol   ⏱ $UPTIME   ● ONLINE"
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+center "────────────────────────────────────────────"
 
 echo ""
 center "System Health"
@@ -103,19 +88,19 @@ center "CPU: $CPU%   RAM: $RAM%   NET: CONNECTED"
 
 echo ""
 
-printf "\n${CYAN}%-40s %-40s${NC}\n" "📦 DEPLOYMENT" "⚙ CONTROLS"
-printf "%-40s %-40s\n" "[1] Install Bot" "[5] Start Bot"
-printf "%-40s %-40s\n" "[2] Configure Bot" "[6] Stop Bot"
-printf "%-40s %-40s\n" "[3] Fix Bot" "[7] Status"
+# MENU (CENTERED CLEAN)
+center "[1] Install Bot        [5] Start Bot"
+center "[2] Configure Bot      [6] Stop Bot"
+center "[3] Fix Bot            [7] Status"
+echo ""
+center "[4] Repair System      [8] Delete Bot"
 
 echo ""
-printf "${MAGENTA}%-40s %-40s${NC}\n" "🛠 MAINTENANCE" ""
-printf "%-40s %-40s\n" "[4] Repair System" "[8] Delete Bot"
+center "────────────────────────────────────────────"
 
-echo ""
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-echo -ne "${YELLOW}➤ Command (1-8 / 0 exit): ${NC}"
+echo -ne "${YELLOW}"
+center "➤ Command (1-8 / 0 exit): "
+echo -ne "${NC}"
 }
 
 # ==============================
