@@ -1,0 +1,73 @@
+═══════════════════════════════════════════════════════════
+              VAULT HEIST DISCORD BOT INSTALLATION
+═══════════════════════════════════════════════════════════
+
+📋 REQUIREMENTS:
+- Node.js v16.9.0 or higher
+- Discord Bot Token
+- Discord Application with bot scope
+
+🚀 QUICK START:
+
+1. Install dependencies:
+   ./setup.sh
+
+2. Configure your bot:
+   Edit .env file with your credentials:
+   TOKEN=your_bot_token_here
+   CLIENT_ID=your_client_id_here
+   GUILD_ID=your_guild_id_here (optional)
+
+3. Start the bot:
+   npm start
+
+🔄 PM2 PRODUCTION MODE:
+
+Install PM2 globally:
+   npm install -g pm2
+
+Start with PM2:
+   pm2 start ecosystem.config.js
+
+PM2 Commands:
+   pm2 status              # Check bot status
+   pm2 logs VaultHeist     # View logs
+   pm2 restart VaultHeist  # Restart bot
+   pm2 stop VaultHeist     # Stop bot
+   pm2 save                # Save current process list
+   pm2 startup             # Generate startup script
+
+📁 FILE STRUCTURE:
+VaultHeist/
+├── src/
+│   ├── commands/         # All slash commands
+│   ├── events/           # Discord events
+│   ├── utils/            # Utility functions
+│   └── data/             # JSON storage
+├── index.js              # Main bot file
+├── package.json          # Dependencies
+├── .env                  # Configuration
+└── ecosystem.config.js   # PM2 config
+
+🎮 COMMANDS:
+Use /help to see all available commands categorized
+
+🔒 SECURITY:
+- PIN system protects your account
+- Jail system for failed robberies
+- Anti-cheat cooldowns prevent spam
+- Admin commands for moderation
+
+📊 DATA STORAGE:
+All user data is stored in JSON files:
+- src/data/users.json - User economy data
+- src/data/logs.txt - Action logs
+
+⚠️ IMPORTANT:
+- Never share your bot token
+- Regularly backup users.json
+- Monitor logs for suspicious activity
+
+Created by: Krysol Dev
+Version: 1.0.0
+═══════════════════════════════════════════════════════════

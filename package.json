@@ -1,0 +1,23 @@
+{
+  "name": "vaultheist-bot",
+  "version": "1.0.0",
+  "description": "Advanced Discord Economy Bot with robbery, PIN system, gambling and leaderboard",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "pm2": "pm2 start ecosystem.config.js",
+    "pm2-stop": "pm2 stop VaultHeist",
+    "pm2-restart": "pm2 restart VaultHeist",
+    "pm2-logs": "pm2 logs VaultHeist"
+  },
+  "author": "Krysol Dev",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
