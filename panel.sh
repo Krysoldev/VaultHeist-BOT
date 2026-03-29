@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# ==============================
-# 🎨 COLORS
-# ==============================
-BLUE='\033[38;5;19m'     # dark blue
+# COLORS
+BLUE='\033[38;5;19m'
 CYAN='\033[1;36m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
@@ -15,58 +13,55 @@ DIR="$HOME/VaultHeist-BOT"
 REPO="https://github.com/Krysoldev/VaultHeist-BOT.git"
 APP_NAME="vaultheist"
 
-# ==============================
-# 🎬 TYPEWRITER
-# ==============================
-typewriter() {
-    text="$1"
-    for ((i=0; i<${#text}; i++)); do
-        echo -ne "${text:$i:1}"
-        sleep 0.01
-    done
-    echo ""
-}
-
-# ==============================
-# 🎯 CENTER TEXT
-# ==============================
-center_text() {
+# CENTER TEXT
+center() {
     cols=$(tput cols)
     text="$1"
     printf "%*s\n" $(((${#text}+cols)/2)) "$text"
 }
 
 # ==============================
-# 🎬 ANIMATED KRYSOL LOGO
+# 🔥 BORDERED CENTER BANNER
 # ==============================
 banner() {
 clear
 
-logo="KRYSOL"
+cols=$(tput cols)
+width=60
 
-for i in {1..3}; do
-clear
-echo ""
-echo -e "${BLUE}"
-center_text "██╗  ██╗██████╗ ██╗   ██╗███████╗ ██████╗ ██╗"
-center_text "██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔═══██╗██║"
-center_text "█████╔╝ ██████╔╝ ╚████╔╝ ███████╗██║   ██║██║"
-center_text "██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║██║   ██║██║"
-center_text "██║  ██╗██║  ██║   ██║   ███████║╚██████╔╝███████╗"
-center_text "╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝"
-echo -e "${NC}"
-sleep 0.08
+# top border
+printf "%*s\n" $(( (cols+width)/2 )) "╔════════════════════════════════════════════════════╗"
+
+# logo lines
+logo=(
+"██╗  ██╗██████╗ ██╗   ██╗███████╗ ██████╗ ██╗"
+"██║ ██╔╝██╔══██╗╚██╗ ██╔╝██╔════╝██╔═══██╗██║"
+"█████╔╝ ██████╔╝ ╚████╔╝ ███████╗██║   ██║██║"
+"██╔═██╗ ██╔══██╗  ╚██╔╝  ╚════██║██║   ██║██║"
+"██║  ██╗██║  ██║   ██║   ███████║╚██████╔╝███████╗"
+"╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ╚══════╝"
+)
+
+for line in "${logo[@]}"; do
+    printf "%*s\n" $(( (cols+${#line})/2 )) "$(echo -e "${BLUE}$line${NC}")"
 done
 
-echo ""
-echo -e "${CYAN}"
-center_text "⚡ K R Y S O L   D A S H B O A R D ⚡"
-echo -e "${NC}"
+# bottom border
+printf "%*s\n" $(( (cols+width)/2 )) "╚════════════════════════════════════════════════════╝"
 
 echo ""
-typewriter "🔐 Initializing secure environment..."
-typewriter "⚡ Loading modules..."
-typewriter "🚀 System ready"
+center "⚡ K R Y S O L   D A S H B O A R D ⚡"
+echo ""
+
+# animation text
+echo -e "${CYAN}"
+center "🔐 Initializing secure environment..."
+sleep 0.1
+center "⚡ Loading modules..."
+sleep 0.1
+center "🚀 System ready"
+echo -e "${NC}"
+
 echo ""
 }
 
@@ -75,13 +70,13 @@ echo ""
 # ==============================
 ensure_repo() {
 if [ ! -d "$DIR" ]; then
-    git clone $REPO $DIR > /dev/null 2>&1
+git clone $REPO $DIR > /dev/null 2>&1
 fi
 cd $DIR || exit
 }
 
 # ==============================
-# 📊 DASHBOARD UI
+# 📊 DASHBOARD
 # ==============================
 dashboard() {
 
@@ -89,27 +84,30 @@ CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
 RAM=$(free | awk '/Mem/ {printf("%.0f"), $3/$2 * 100}')
 UPTIME=$(uptime -p | cut -d " " -f2-)
 
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e " HOST: Krysol   ⏱ $UPTIME   ● ONLINE"
-echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+center "HOST: Krysol   ⏱ $UPTIME   ● ONLINE"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
-echo -e "\n${MAGENTA}System Health:${NC}"
-echo -e " CPU: ${CYAN}$CPU%${NC}   RAM: ${YELLOW}$RAM%${NC}   NET: ${GREEN}CONNECTED${NC}"
+echo ""
+center "System Health:"
+echo " CPU: $CPU%   RAM: $RAM%   NET: CONNECTED"
 
-echo -e "\n${CYAN}📦 DEPLOYMENT${NC}"
+echo ""
+center "📦 DEPLOYMENT"
 echo " [1] Install Bot        [5] Start Bot"
 echo " [2] Configure Bot      [6] Stop Bot"
 echo " [3] Fix Bot            [7] Status"
 
-echo -e "\n${MAGENTA}🛠 MAINTENANCE${NC}"
+echo ""
+center "🛠 MAINTENANCE"
 echo " [4] Repair System      [8] Delete Bot"
 
-echo -e "\n${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo ""
 echo -ne "${YELLOW}➤ Command (1-8 / 0 exit): ${NC}"
 }
 
 # ==============================
-# 🚀 FUNCTIONS
+# ⚙️ FUNCTIONS
 # ==============================
 install_bot() {
 ensure_repo
