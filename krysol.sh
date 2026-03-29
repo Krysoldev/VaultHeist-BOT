@@ -211,7 +211,7 @@ while true; do
 banner
 menu
 
-echo -ne "${MAGENTA}┌─[KRYsol@panel]─[~]\n└──➤ ${NC}"
+echo -ne "${MAGENTA}┌─[KRYSOL@panel]─[~]\n└──➤ ${NC}"
 read choice
 
 loading_bar
