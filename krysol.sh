@@ -72,7 +72,7 @@ EOF
 
 echo -e "${CYAN}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "        ⚡ KRYsol CONTROL SYSTEM ⚡"
+echo "        ⚡ KRYSOL CONTROL SYSTEM ⚡"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "${NC}"
 
