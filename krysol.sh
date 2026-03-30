@@ -73,7 +73,7 @@ EOF
 
 echo -e "${CYAN}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "         🐦‍🔥 Made By KrysolDev 🐦‍🔥 "
+echo "         🔥 Made By KrysolDev 🔥 "
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo -e "${NC}"
 
