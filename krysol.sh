@@ -53,9 +53,13 @@ clear
 for i in {1..2}; do
 clear
 echo -e "${CYAN}"
+sleep 0.05
+clear
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "        ⚡ VaultHeist Installer ⚡"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+sleep 0.05
+clear
 echo -e "${NC}"
 sleep 0.05
 done
